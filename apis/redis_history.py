@@ -9,7 +9,7 @@ import logging as log
 class History:
 
     def __init__(self, message: Message, ai_response: str = None) -> None:
-        self.max_len_list = 250
+        self.max_len_list = 350
         self.message = message
         self.ai_response = ai_response
         self.r = aioredis.from_url(
