@@ -1,0 +1,1 @@
+The chatbot was created to communicate in Ukrainian. Can work both in groups and in private chat.
