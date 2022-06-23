@@ -26,6 +26,17 @@ class History:
             log.info("Error get data from Redis. Details: %s" % e)
             return []
 
+    async def write_history(self, history: list) -> bool:
+        try:
+            await self.r.hset(
+                "chat", self.message.from_user.id,
+                json.dumps(history))
+            await self.r.close()
+            return True
+        except Exception as e:
+            log.warning("Error write history. Details: %s" % e)
+            return False
+
     def _cut_long_list(self, list_: list) -> list:
         return list_[-self.max_len_list:] \
             if list_[-1]["sender"] == "bot" \
@@ -38,10 +49,7 @@ class History:
             history.append({"sender": "user", "text": self.message.text})
             history.append({"sender": "bot", "text": self.ai_response})
             history = self._cut_long_list(history)
-            await self.r.hset(
-                "chat", self.message.from_user.id,
-                json.dumps(history))
-            await self.r.close()
+            await self.write_history(history)
             return True
         except Exception as e:
             log.error("Error write message to history. Details: %s" % e)
