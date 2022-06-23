@@ -6,7 +6,6 @@ class AiResponse:
     def __init__(self, text: str, prompt: str) -> None:
         self.completion = openai.Completion()
         self.prompt = "%sYou: %s\nFriend:" % (prompt, text)
-        print(self.prompt)
 
     @property
     def _response(self) -> str:
