@@ -12,7 +12,7 @@ class AiResponse:
         response = self.completion.create(
             prompt=self.prompt,
             engine="text-davinci-002",
-            temperature=0.85,
+            temperature=0.88,
             max_tokens=60,
             top_p=1.0,
             frequency_penalty=0.5,
