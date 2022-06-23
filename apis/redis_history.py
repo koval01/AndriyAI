@@ -9,7 +9,7 @@ import logging as log
 class History:
 
     def __init__(self, message: Message, ai_response: str = None) -> None:
-        self.max_len_list = 350
+        self.max_len_list = 360
         self.message = message
         self.ai_response = ai_response
         self.r = aioredis.from_url(
@@ -38,6 +38,10 @@ class History:
             return False
 
     def _cut_long_list(self, list_: list) -> list:
+        log.info(
+            "Len history %d for user %d" %
+            (len(list_), self.message.from_user.id)
+        )
         return list_[-self.max_len_list:] \
             if list_[-1]["sender"] == "bot" \
             else list_[-self.max_len_list-1:]
