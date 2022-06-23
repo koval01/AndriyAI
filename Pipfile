@@ -8,6 +8,7 @@ aiogram = "*"
 openai = "*"
 translatepy = "*"
 aioredis = "*"
+numpy = "*"
 
 [dev-packages]
 
