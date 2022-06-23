@@ -2,6 +2,7 @@ from aiogram import types
 from aiogram.dispatcher.filters import BoundFilter
 import config
 
+
 class IsOwnerFilter(BoundFilter):
     """
     Custom filter "is_owner".
@@ -12,7 +13,8 @@ class IsOwnerFilter(BoundFilter):
         self.is_owner = is_owner
     
     async def check(self, message: types.Message):
-        return message.from_user.id == config.BOT_OWNER
+        return message.from_user.id == int(config.BOT_OWNER)
+
 
 class IsAdminFilter(BoundFilter):
     """
@@ -26,19 +28,3 @@ class IsAdminFilter(BoundFilter):
     async def check(self, message: types.Message):
         member = await message.bot.get_chat_member(message.chat.id, message.from_user.id)
         return member.is_chat_admin() == self.is_admin
-
-
-class MemberCanRestrictFilter(BoundFilter):
-    """
-    Filter that checks member ability for restricting
-    """
-    key = 'member_can_restrict'
-
-    def __init__(self, member_can_restrict: bool):
-        self.member_can_restrict = member_can_restrict
-
-    async def check(self, message: types.Message):
-        member = await message.bot.get_chat_member(message.chat.id, message.from_user.id)
-
-        # I don't know why, but telegram thinks, if member is chat creator, he cant restrict member
-        return (member.is_chat_creator() or member.can_restrict_members) == self.member_can_restrict
