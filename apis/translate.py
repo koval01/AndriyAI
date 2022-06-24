@@ -1,4 +1,5 @@
 from translatepy.translators.google import GoogleTranslate
+import logging as log
 
 
 class Translate:
@@ -8,6 +9,7 @@ class Translate:
         self.from_ = from_
         self.to_ = to_
         self.text = text
+        log.debug("Translate from %s to %s" % (from_, to_))
 
     @staticmethod
     def _fix_result(text: str) -> str:

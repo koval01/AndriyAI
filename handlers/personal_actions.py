@@ -32,7 +32,7 @@ async def clear_history(msg: types.Message):
     chat_type=[ChatType.PRIVATE])
 @rate_limit(2.5, 'text_from_user')
 async def text_messages(msg: types.Message):
-    await Response(msg).exec
+    await Response(msg).exec(porfirevich=True)
 
 
 @dp.message_handler(
