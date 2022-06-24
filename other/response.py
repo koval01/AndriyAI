@@ -4,6 +4,7 @@ from apis.openai_module import AiResponse
 from apis.porfirevich_api import Porfirevich
 from apis.redis_history import History
 from apis.translate import Translate
+from dispatcher import bot
 
 
 class Response:
@@ -29,6 +30,11 @@ class Response:
             else str(AiResponse(text=org_text, prompt=prompt))
 
     async def _build_resp(self, porfirevich: bool) -> bool:
+        if self.message.reply_to_message \
+                and self.message.chat.type != "private":
+            me = await bot.get_me()
+            if self.message.reply_to_message.from_user.id != me.id:
+                return False
         await self.message.answer_chat_action("typing")
         lang_mode = "ru" if porfirevich else "en"
         org_text = str(Translate("uk", lang_mode, self.message.text.strip()))
