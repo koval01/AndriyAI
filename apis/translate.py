@@ -9,6 +9,13 @@ class Translate:
         self.to_ = to_
         self.text = text
 
+    @staticmethod
+    def _fix_result(text: str) -> str:
+        end_chars = [".", "!", "?"]
+        for i in end_chars:
+            text = f"{i}\x20".join(text.split(i))
+        return text
+
     @property
     def _translate(self) -> str:
         return self.gtranslate.translate(
@@ -16,4 +23,4 @@ class Translate:
             destination_language=self.to_).result
 
     def __str__(self) -> str:
-        return self._translate
+        return self._fix_result(self._translate)
