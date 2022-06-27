@@ -15,7 +15,10 @@ class Response:
     @staticmethod
     def build_prompt(list_: list, porfirevich: bool) -> str:
         return "".join([
-            f'{"%s: " % ["You", "Ты"][int(porfirevich)] if m["sender"] == "user" else "%s: " % ["Friend", "Друг"][int(porfirevich)]}{m["text"]}\n '
+            "%s: " % ["You", "Ты"][int(porfirevich)]
+            if m["sender"] == "user"
+            else "%s: " % ["Friend", "Друг"][int(porfirevich)]
+                 + f'{m["text"]}\n '
             for m in list_
         ])
 
